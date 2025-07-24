@@ -1,10 +1,8 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
-using UnityEngine.SceneManagement;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, PlayerInputActions.IPlayerActions
 {
     public GameObject freeCamera;
     public float movementSpeed;
@@ -26,6 +24,9 @@ public class PlayerMovement : MonoBehaviour
     private void OnEnable()
     {
         playerControls.Enable();
+        playerControls.Player.Move.performed += OnMove;
+        playerControls.Player.Move.canceled += OnMove;
+
     }
 
     private void OnDisable()
@@ -75,5 +76,57 @@ public class PlayerMovement : MonoBehaviour
         {
             other.GetComponent<GraffitiEvent>().StartEvent();
         }
+    }
+
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        if (context.canceled)
+        {
+            GetComponentInChildren<Animator>().CrossFade("Idle1", 0);
+        }
+        else if (context.performed)
+        {
+            GetComponentInChildren<Animator>().CrossFade("Walk", 0);
+        }
+    }
+
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnCrouch(InputAction.CallbackContext context)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnPrevious(InputAction.CallbackContext context)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnNext(InputAction.CallbackContext context)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnSprint(InputAction.CallbackContext context)
+    {
+        throw new NotImplementedException();
     }
 }
