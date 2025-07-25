@@ -2387,11 +2387,11 @@ MonoBehaviour:
   _characterLookDirection: 2
   _uprightSpringStrength: 40
   _uprightSpringDamper: 5
-  _maxSpeed: 8
-  _acceleration: 200
+  _maxSpeed: 40
+  _acceleration: 900
   _maxAccelForce: 150
   _moveForceScale: {x: 1, y: 0, z: 1}
-  _jumpForceFactor: 10
+  _jumpForceFactor: 30
   _riseGravityFactor: 5
   _fallGravityFactor: 10
   _lowJumpFactor: 2.5
