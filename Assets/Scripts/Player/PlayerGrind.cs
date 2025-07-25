@@ -43,27 +43,22 @@ public class PlayerGrind : MonoBehaviour
     {
         playerScore = GetComponent<PlayerScore>();
         playerRigidbody = GetComponent<Rigidbody>();
-        heightOffset = gameObject.GetComponent<PlayerHover>().hoverHeight; // gameObject.GetComponent<Collider>().bounds.size.y / 2;
+        heightOffset = gameObject.GetComponent<Collider>().bounds.size.y / 2 + gameObject.GetComponent<PlayerMovement>()._rideHeight;
 
         elapsedScoreTime = 0;
         prevScoreTime = 0;
-    }
-    public void HandleJump(InputAction.CallbackContext context)
-    {
-        jump = Convert.ToBoolean(context.ReadValue<float>());
-    }
-
-    public void HandleMovement(InputAction.CallbackContext context)
-    {
-        Vector2 rawInput = context.ReadValue<Vector2>();
-        input.x = rawInput.x;
     }
 
     private void FixedUpdate()
     {
         if (onRail) //If on the rail, move the player along the rail
         {
+            GetComponent<PlayerMovement>().Freeze();
             MovePlayerAlongRail();
+        }
+        else
+        {
+            GetComponent<PlayerMovement>().Unfreeze();
         }
     }
 
@@ -155,7 +150,8 @@ public class PlayerGrind : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision collision) // OnCollisionEnter is required to prevent score breaking (ensure correct elapsedScoreTime)
-    {
+    {   
+        Debug.Log("Hitting something");
         if (onRail)
         {
             // ThrowOffRail();
@@ -164,6 +160,7 @@ public class PlayerGrind : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Rail"))
         {
+            Debug.Log("Hitting rail");
             Spline rail = collision.gameObject.GetComponentInParent<SplineContainer>().Spline;
             float3 playerPoint = collision.gameObject.GetComponent<RailScript>().WorldToLocalConversion(transform.position);
             SplineUtility.GetNearestPoint(rail, playerPoint, out nearestPoint, out float normalizedPoint, 10, 10);
@@ -228,7 +225,6 @@ public class PlayerGrind : MonoBehaviour
         elapsedScoreTime = 0;
         prevScoreTime = 0;
 
-        playerScore.ResetScore();
         initializedRotation = false;
     }
 
