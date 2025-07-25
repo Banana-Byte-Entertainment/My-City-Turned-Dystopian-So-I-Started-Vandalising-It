@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     private bool _shouldMaintainHeight = true;
 
     [Header("Height Spring:")]
-    [SerializeField] private float _rideHeight = 0.1f; // rideHeight: desired distance to ground (Note, this is distance from the original raycast position (currently centre of transform)). 
+    [SerializeField] public float _rideHeight = 0.1f; // rideHeight: desired distance to ground (Note, this is distance from the original raycast position (currently centre of transform)). 
     [SerializeField] private float _rayToGroundLength = 3f; // rayToGroundLength: max distance of raycast to ground (Note, this should be greater than the rideHeight).
     [SerializeField] public float _rideSpringStrength = 50f; // rideSpringStrength: strength of spring. (?)
     [SerializeField] private float _rideSpringDamper = 5f; // rideSpringDampener: dampener of spring. (?)
@@ -104,7 +104,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private bool _prevGrounded = false;
-    
+
 
     /// <summary>
     /// Determines and plays the appropriate character sounds, particle effects, then calls the appropriate methods to move and float the character.
@@ -138,18 +138,31 @@ public class PlayerMovement : MonoBehaviour
             _timeSinceUngrounded += Time.fixedDeltaTime;
         }
 
-        CharacterMove(_moveInput, rayHit);
-        CharacterJump(_jumpInput, grounded, rayHit);
+        if (!frozen)
+        {
+            CharacterMove(_moveInput, rayHit);
+            CharacterJump(_jumpInput, grounded, rayHit);
+        }
+        else
+        {
+            _rb.linearVelocity = new Vector3(0, 0, 0);
+        }
 
         if (rayHitGround && _shouldMaintainHeight)
-        {
-            MaintainHeight(rayHit);
-        }
+            {
+                MaintainHeight(rayHit);
+            }
 
         // Vector3 lookDirection = GetLookDirection(_characterLookDirection);
         // MaintainUpright(lookDirection, rayHit);
 
         _prevGrounded = grounded;
+        
+        // Bandaid fix for character sinking because I'm too lazy to figure out how to fix the force vectors :/
+        if (_rb.linearVelocity.y < 0 && grounded) {
+            _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, 0, _rb.linearVelocity.z);
+        }
+
     }
 
     /// <summary>
@@ -283,6 +296,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (jumpContext > 0)
         {
+            if (GetComponent<PlayerGrind>().onRail)
+            {
+                Debug.Log("Trying to jump on rail :3c");
+                GetComponent<PlayerGrind>().FeetCollisionOnRail(); // if on rail, call FeetCollisionOnRail to send player off rail
+            }
             _timeSinceJumpPressed = 0f;
             Debug.Log("Jump pressed");
         }
@@ -314,8 +332,8 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="rayHit">The rayHit towards the platform.</param>
     private void CharacterMove(Vector3 moveInput, RaycastHit rayHit)
     {
-        // if (!frozen)
-        // {
+        if (!frozen)
+        {
             Vector3 cameraForward = freeCamera.transform.forward;
             Vector3 cameraRight = freeCamera.transform.right;
             cameraForward.y = 0;
@@ -337,11 +355,11 @@ public class PlayerMovement : MonoBehaviour
             _rb.AddForce(Vector3.Scale(neededAccel * _rb.mass, _moveForceScale));
 
             transform.LookAt(new Vector3(moveDirection.x, 0, moveDirection.z) + transform.position);
-        // }
-        // else
-        // {
-        //     _rb.linearVelocity = new Vector3(0, 0, 0);
-        // }
+        }
+        else
+        {
+            _rb.linearVelocity = new Vector3(0, 0, 0);
+        }
     }
 
     /// <summary>

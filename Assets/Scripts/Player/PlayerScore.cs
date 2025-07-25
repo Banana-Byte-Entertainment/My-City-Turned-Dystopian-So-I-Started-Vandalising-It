@@ -6,7 +6,7 @@ public class PlayerScore : MonoBehaviour
 {
     private float score;
     private int combo;
-    public TextMeshProUGUI textScore;
+    // public TextMeshProUGUI textScore;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,7 +22,8 @@ public class PlayerScore : MonoBehaviour
 
     void SetTextScore()
     {
-        textScore.text = "Score: " + (int)Math.Ceiling(score);
+        // textScore.text = "Score: " + (int)Math.Ceiling(score);
+        Debug.Log("Score: " + (int)Math.Ceiling(score));
     }
 
     public void UpdateScore(float change)
