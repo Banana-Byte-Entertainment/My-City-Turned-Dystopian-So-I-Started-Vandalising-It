@@ -138,13 +138,20 @@ public class PlayerMovement : MonoBehaviour
             _timeSinceUngrounded += Time.fixedDeltaTime;
         }
 
-        CharacterMove(_moveInput, rayHit);
-        CharacterJump(_jumpInput, grounded, rayHit);
+        if (!frozen)
+        {
+            CharacterMove(_moveInput, rayHit);
+            CharacterJump(_jumpInput, grounded, rayHit);
+        }
+        else
+        {
+            _rb.linearVelocity = new Vector3(0, 0, 0);
+        }
 
         if (rayHitGround && _shouldMaintainHeight)
-        {
-            MaintainHeight(rayHit);
-        }
+            {
+                MaintainHeight(rayHit);
+            }
 
         // Vector3 lookDirection = GetLookDirection(_characterLookDirection);
         // MaintainUpright(lookDirection, rayHit);
@@ -320,34 +327,27 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="rayHit">The rayHit towards the platform.</param>
     private void CharacterMove(Vector3 moveInput, RaycastHit rayHit)
     {
-        if (!frozen)
-        {
-            Vector3 cameraForward = freeCamera.transform.forward;
-            Vector3 cameraRight = freeCamera.transform.right;
-            cameraForward.y = 0;
-            cameraRight.y = 0;
-            cameraForward.Normalize();
-            cameraRight.Normalize();
-            moveDirection = (_moveInput.x * cameraRight) + (_moveInput.z * cameraForward);
+        Vector3 cameraForward = freeCamera.transform.forward;
+        Vector3 cameraRight = freeCamera.transform.right;
+        cameraForward.y = 0;
+        cameraRight.y = 0;
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+        moveDirection = (_moveInput.x * cameraRight) + (_moveInput.z * cameraForward);
 
-            Vector3 m_UnitGoal = moveDirection.normalized;
-            Vector3 unitVel = _m_GoalVel.normalized;
+        Vector3 m_UnitGoal = moveDirection.normalized;
+        Vector3 unitVel = _m_GoalVel.normalized;
 
-            float velDot = Vector3.Dot(m_UnitGoal, unitVel);
-            float accel = _acceleration;
-            Vector3 goalVel = m_UnitGoal * _maxSpeed * _speedFactor;
-            _m_GoalVel = Vector3.MoveTowards(_m_GoalVel, goalVel, accel * Time.fixedDeltaTime);
-            Vector3 neededAccel = (_m_GoalVel - _rb.linearVelocity) / Time.fixedDeltaTime;
-            float maxAccel = _maxAccelForce * _maxAccelForceFactor;
-            neededAccel = Vector3.ClampMagnitude(neededAccel, maxAccel);
-            _rb.AddForce(Vector3.Scale(neededAccel * _rb.mass, _moveForceScale));
+        float velDot = Vector3.Dot(m_UnitGoal, unitVel);
+        float accel = _acceleration;
+        Vector3 goalVel = m_UnitGoal * _maxSpeed * _speedFactor;
+        _m_GoalVel = Vector3.MoveTowards(_m_GoalVel, goalVel, accel * Time.fixedDeltaTime);
+        Vector3 neededAccel = (_m_GoalVel - _rb.linearVelocity) / Time.fixedDeltaTime;
+        float maxAccel = _maxAccelForce * _maxAccelForceFactor;
+        neededAccel = Vector3.ClampMagnitude(neededAccel, maxAccel);
+        _rb.AddForce(Vector3.Scale(neededAccel * _rb.mass, _moveForceScale));
 
-            transform.LookAt(new Vector3(moveDirection.x, 0, moveDirection.z) + transform.position);
-        }
-        else
-        {
-            _rb.linearVelocity = new Vector3(0, 0, 0);
-        }
+        transform.LookAt(new Vector3(moveDirection.x, 0, moveDirection.z) + transform.position);
     }
 
     /// <summary>
