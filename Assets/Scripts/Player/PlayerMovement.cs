@@ -104,7 +104,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private bool _prevGrounded = false;
-    
+
 
     /// <summary>
     /// Determines and plays the appropriate character sounds, particle effects, then calls the appropriate methods to move and float the character.
@@ -150,6 +150,12 @@ public class PlayerMovement : MonoBehaviour
         // MaintainUpright(lookDirection, rayHit);
 
         _prevGrounded = grounded;
+        
+        // Bandaid fix for character sinking because I'm too lazy to figure out how to fix the force vectors :/
+        if (_rb.linearVelocity.y < 0 && grounded) {
+            _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, 0, _rb.linearVelocity.z);
+        }
+
     }
 
     /// <summary>

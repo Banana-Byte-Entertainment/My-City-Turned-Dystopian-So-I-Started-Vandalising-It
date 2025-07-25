@@ -839,9 +839,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df05cd0fb7bafc947a557a2a20948272, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  travelDir: 0
-  railSpline: {fileID: 0}
-  totalSplineLength: 0
 --- !u!64 &752262844
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -999,40 +996,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &827260817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148907360989}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43e6778be3024104ea82e1fc318e5330, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  freeCamera: {fileID: 576287072}
-  _adjustInputsToCameraAngle: 1
-  _terrainLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  _rideHeight: 1
-  _rayToGroundLength: 3
-  _rideSpringStrength: 50
-  _rideSpringDamper: 5
-  _characterLookDirection: 2
-  _uprightSpringStrength: 40
-  _uprightSpringDamper: 5
-  _maxSpeed: 8
-  _acceleration: 200
-  _maxAccelForce: 150
-  _moveForceScale: {x: 1, y: 0, z: 1}
-  _jumpForceFactor: 20
-  _riseGravityFactor: 5
-  _fallGravityFactor: 10
-  _lowJumpFactor: 2.5
-  _jumpBuffer: 0.15
-  _coyoteTime: 0.25
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1714,9 +1677,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df05cd0fb7bafc947a557a2a20948272, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  travelDir: 0
-  railSpline: {fileID: 0}
-  totalSplineLength: 0
 --- !u!1 &1567677471
 GameObject:
   m_ObjectHideFlags: 0
@@ -2274,11 +2234,8 @@ GameObject:
   - component: {fileID: 543450652914980967}
   - component: {fileID: 827260814}
   - component: {fileID: 827260815}
-  - component: {fileID: 919132148907360991}
-  - component: {fileID: 827260817}
-  - component: {fileID: 919132148907360990}
+  - component: {fileID: 919132148907360995}
   - component: {fileID: 919132148907360992}
-  - component: {fileID: 919132148907360993}
   - component: {fileID: 919132148907360994}
   m_Layer: 6
   m_Name: FuwaSuisei
@@ -2287,37 +2244,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &919132148907360990
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148907360989}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb726aeffc349724ea210b7a0fc9614c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textScore: {fileID: 1085160589}
---- !u!114 &919132148907360991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148907360989}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15ec60b700157834b8358bf0ebc98940, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jump: 0
-  input: {x: 0, y: 0, z: 0}
-  onRail: 0
-  grindSpeed: 20
-  lerpSpeed: 10
-  currentRailScript: {fileID: 0}
 --- !u!114 &919132148907360992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2424,20 +2350,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &919132148907360993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148907360989}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c3a8c69177147e449bfa3e935d082a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGrounded: 0
-  isGroundedCycle: 0
 --- !u!114 &919132148907360994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2450,6 +2362,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 473894e5b12d3c546af39043f06319cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &919132148907360995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148907360989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3c81cab9851c492e8ee13b7cd36c9d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveContext: {x: 0, y: 0}
+  freeCamera: {fileID: 576287072}
+  _adjustInputsToCameraAngle: 1
+  _terrainLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _rideHeight: 1
+  _rayToGroundLength: 3
+  _rideSpringStrength: 50
+  _rideSpringDamper: 5
+  _characterLookDirection: 2
+  _uprightSpringStrength: 40
+  _uprightSpringDamper: 5
+  _maxSpeed: 8
+  _acceleration: 200
+  _maxAccelForce: 150
+  _moveForceScale: {x: 1, y: 0, z: 1}
+  _jumpForceFactor: 10
+  _riseGravityFactor: 5
+  _fallGravityFactor: 10
+  _lowJumpFactor: 2.5
+  _jumpBuffer: 0.15
+  _coyoteTime: 0.25
 --- !u!4 &931395608346684773
 Transform:
   m_ObjectHideFlags: 0
