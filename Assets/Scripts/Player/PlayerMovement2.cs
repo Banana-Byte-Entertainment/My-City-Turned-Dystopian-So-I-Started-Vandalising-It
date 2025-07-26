@@ -42,6 +42,10 @@ public class PlayerMovement2 : MonoBehaviour
         move = playerControls.Player.Move;
         jump = playerControls.Player.Jump;
         rb = GetComponent<Rigidbody>();
+
+        // Hide and lock the cursor to the center of the screen
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
