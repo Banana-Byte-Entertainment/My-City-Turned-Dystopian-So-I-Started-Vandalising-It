@@ -82,4 +82,12 @@ public class PlayerMovement2 : MonoBehaviour
 
         jumpQueued = false;
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "GraffitiSpot")
+        {
+            other.GetComponent<GraffitiEvent>().StartEvent();
+        }
+    }
 }

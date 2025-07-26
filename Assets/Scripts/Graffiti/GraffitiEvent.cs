@@ -14,11 +14,11 @@ public class GraffitiEvent : MonoBehaviour
   public void StartEvent()
   {
     Debug.Log("GraffitiEvent: Locking player");
-    PlayerMovement playerMovement = mainPlayer.GetComponent<PlayerMovement>();
+    PlayerMovement2 playerMovement = mainPlayer.GetComponent<PlayerMovement2>();
     grafitiEvent = true;
-    PlayerMovement.instance.Freeze();
-    // originalSpeed = playerMovement.movementSpeed;
-    // playerMovement.movementSpeed = 0;
+    // PlayerMovement.instance.Freeze();
+    originalSpeed = playerMovement.movementSpeed;
+    playerMovement.movementSpeed = 0;
     Debug.Log("GraffitiEvent: Changing camera position to grafiti");
     CinemachineCamera freeCamera = graffitiCam.GetComponent<CinemachineCamera>();
     freeCamera.Priority = 2;
@@ -28,9 +28,9 @@ public class GraffitiEvent : MonoBehaviour
   public void EndEvent()
   {
     Debug.Log("GraffitiEvent: Unlocking player");
-    PlayerMovement playerMovement = mainPlayer.GetComponent<PlayerMovement>();
-    // playerMovement.movementSpeed = originalSpeed;
-    PlayerMovement.instance.Unfreeze();
+    PlayerMovement2 playerMovement = mainPlayer.GetComponent<PlayerMovement2>();
+    playerMovement.movementSpeed = originalSpeed;
+    // PlayerMovement.instance.Unfreeze();
     grafitiEvent = false;
     Debug.Log("GraffitiEvent: Changing camera position to original");
     CinemachineCamera freeCamera = graffitiCam.GetComponent<CinemachineCamera>();
