@@ -54,11 +54,14 @@ public class PlayerGrind : MonoBehaviour
         if (onRail) //If on the rail, move the player along the rail
         {
             GetComponent<PlayerMovement>().Freeze();
+            playerRigidbody.useGravity = false;
             MovePlayerAlongRail();
+
         }
         else
         {
             GetComponent<PlayerMovement>().Unfreeze();
+            playerRigidbody.useGravity = true;
         }
     }
 
@@ -131,8 +134,14 @@ public class PlayerGrind : MonoBehaviour
                 currentRailRotation = rotationDelta * currentRailRotation;
             }
 
+            currentRailRotation.z = 0;
+
             // Apply rotation smoothly
             transform.rotation = Quaternion.Slerp(transform.rotation, currentRailRotation, lerpSpeed * Time.deltaTime);
+            // Zero out the z component of the rotation (roll) if needed
+            Quaternion rot = transform.rotation;
+            rot.z = 0;
+            transform.rotation = rot;
 
             // Update tangent
             lastTangent = tangentDir;
@@ -150,7 +159,7 @@ public class PlayerGrind : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision collision) // OnCollisionEnter is required to prevent score breaking (ensure correct elapsedScoreTime)
-    {   
+    {
         Debug.Log("Hitting something");
         if (onRail)
         {
