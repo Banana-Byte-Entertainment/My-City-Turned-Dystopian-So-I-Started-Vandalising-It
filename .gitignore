@@ -12,9 +12,7 @@
 /[Uu]ser[Ss]ettings/
 *.log
 
-# By default Unity supports Blender asset imports, *.blend1 blender files do not need to be commited to version control.
-*.blend
-*.blend.meta
+# By default unity supports Blender asset imports, *.blend1 blender files do not need to be commited to version control.
 *.blend1
 *.blend1.meta
 
@@ -56,8 +54,6 @@ ExportedObj/
 *.mdb
 *.opendb
 *.VC.db
-.vscode/
-.vsconfig
 
 # Unity3D generated meta files
 *.pidb.meta
