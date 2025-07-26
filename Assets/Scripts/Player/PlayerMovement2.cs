@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
-public class PlayerMovement2 : MonoBehaviour
+public class PlayerMovement2 : MonoBehaviour, PlayerInputActions.IPlayerActions
 {
     public GameObject freeCamera;
     public float movementSpeed;
@@ -93,5 +93,72 @@ public class PlayerMovement2 : MonoBehaviour
         {
             other.GetComponent<GraffitiEvent>().StartEvent();
         }
+    }
+
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            GetComponent<Animator>().CrossFade("HoverboardMoving", 0.1f);
+        }
+        else if (context.canceled)
+        {
+            GetComponent<Animator>().CrossFade("HoverboardIdle", 0.1f);
+        }
+    }
+
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnLeftClickTrick(InputAction.CallbackContext context)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnCrouch(InputAction.CallbackContext context)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.performed && jumpQueued)
+        {
+            GetComponent<Animator>().CrossFade("HoverboardJump", 0.1f);
+        }
+    }
+
+    public void OnPrevious(InputAction.CallbackContext context)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnNext(InputAction.CallbackContext context)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnSprint(InputAction.CallbackContext context)
+    {
+        if (context.performed && jumpQueued)
+        {
+            GetComponent<Animator>().CrossFade("HoverboardJump", 0.1f);
+        }
+        else if (context.canceled)
+        {
+            GetComponent<Animator>().CrossFade("HoverboardMoving", 0.1f);
+        }
+    }
+
+    public void OnRightClickTrick(InputAction.CallbackContext context)
+    {
+        throw new NotImplementedException();
     }
 }
