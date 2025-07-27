@@ -3,9 +3,19 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    // Variables
+    public string sceneName;
+    public TransitionManager transitionManager;
+
+    private void Start()
+    {
+        transitionManager.Hide();
+    }
+
     public void Play()
     {
-        SceneManager.LoadScene("SampleScene2");
+        // Do transition to the game scene
+        transitionManager.FadeToBlack(sceneName);
     }
 
     public void Quit()
