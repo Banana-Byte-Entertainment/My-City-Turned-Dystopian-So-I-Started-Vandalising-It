@@ -19,8 +19,8 @@ public class NPC : MonoBehaviour
     public string[] dialogueMessages;
 
     [Header("Dialogue")]
-    public GameObject dialogueBox; // Assign a UI panel/image for the background
-    public TextMeshProUGUI dialogueText; // Assign a TextMeshPro UGUI element
+    public TextMeshPro dialogueTextPrefab; // Assign a TextMeshPro prefab for the text
+    public Vector3 dialogueOffset = new Vector3(0, 2, 0); // Offset above the NPC's head
     public float dialogueDisplayTime = 3f;
 
     private Coroutine _dialogueCoroutine;
@@ -34,18 +34,22 @@ public class NPC : MonoBehaviour
             enabled = false; // Disable script if no controller
             return;
         }
-        if (dialogueBox != null)
-        {
-            dialogueBox.SetActive(false);
-        }
         StartCoroutine(Wander());
     }
+
+    private TextMeshPro dialogueInstance;
 
     void Update()
     {
         if (isMoving)
         {
             Move();
+        }
+
+        // Make the dialogue always face the camera
+        if (dialogueInstance != null && Camera.main != null)
+        {
+            dialogueInstance.transform.rotation = Quaternion.LookRotation(dialogueInstance.transform.position - Camera.main.transform.position);
         }
     }
 
@@ -125,7 +129,7 @@ public class NPC : MonoBehaviour
 
     public void DisplayDialogue()
     {
-        if (dialogueMessages == null || dialogueMessages.Length == 0 || dialogueBox == null || dialogueText == null)
+        if (dialogueMessages == null || dialogueMessages.Length == 0 || dialogueTextPrefab == null)
         {
             return;
         }
@@ -133,16 +137,25 @@ public class NPC : MonoBehaviour
         if (_dialogueCoroutine != null)
         {
             StopCoroutine(_dialogueCoroutine);
+            if (dialogueInstance != null)
+            {
+                Destroy(dialogueInstance.gameObject);
+            }
         }
         _dialogueCoroutine = StartCoroutine(ShowDialogueRoutine());
     }
 
     private IEnumerator ShowDialogueRoutine()
     {
-        dialogueBox.SetActive(true);
-        dialogueText.text = dialogueMessages[UnityEngine.Random.Range(0, dialogueMessages.Length)];
+        dialogueInstance = Instantiate(dialogueTextPrefab, transform.position + dialogueOffset, Quaternion.identity, transform);
+        dialogueInstance.text = dialogueMessages[UnityEngine.Random.Range(0, dialogueMessages.Length)];
+
         yield return new WaitForSeconds(dialogueDisplayTime);
-        dialogueBox.SetActive(false);
+
+        if (dialogueInstance != null)
+        {
+            Destroy(dialogueInstance.gameObject);
+        }
         _dialogueCoroutine = null;
     }
 }
