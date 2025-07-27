@@ -26,6 +26,8 @@ public class PressPause : MonoBehaviour
             else
             {
                 change = true;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
             }
         }
     }

@@ -23,7 +23,7 @@ public class PlayerScore : MonoBehaviour
     void SetTextScore()
     {
         // textScore.text = "Score: " + (int)Math.Ceiling(score);
-        Debug.Log("Score: " + (int)Math.Ceiling(score));
+        // Debug.Log("Score: " + (int)Math.Ceiling(score));
     }
 
     public void UpdateScore(float change)
@@ -42,5 +42,5 @@ public class PlayerScore : MonoBehaviour
     public void ResetScore()
     {
         UpdateScore(-score);
-    } 
+    }
 }

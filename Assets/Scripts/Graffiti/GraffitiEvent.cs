@@ -14,7 +14,7 @@ public class GraffitiEvent : MonoBehaviour
   public void StartEvent()
   {
     Debug.Log("GraffitiEvent: Locking player");
-    PlayerMovement2 playerMovement = mainPlayer.GetComponent<PlayerMovement2>();
+    PlayerMovement playerMovement = mainPlayer.GetComponent<PlayerMovement>();
     grafitiEvent = true;
     // PlayerMovement.instance.Freeze();
     originalSpeed = playerMovement.movementSpeed;
@@ -23,12 +23,16 @@ public class GraffitiEvent : MonoBehaviour
     CinemachineCamera freeCamera = graffitiCam.GetComponent<CinemachineCamera>();
     freeCamera.Priority = 2;
     grafitiCanvas.GetComponent<GraffitiCanvas>().canDraw = true;
+    Cursor.lockState = CursorLockMode.None;
+    Cursor.visible = true;
   }
 
   public void EndEvent()
   {
+    if (grafitiEvent == false)
+      return;
     Debug.Log("GraffitiEvent: Unlocking player");
-    PlayerMovement2 playerMovement = mainPlayer.GetComponent<PlayerMovement2>();
+    PlayerMovement playerMovement = mainPlayer.GetComponent<PlayerMovement>();
     playerMovement.movementSpeed = originalSpeed;
     // PlayerMovement.instance.Unfreeze();
     grafitiEvent = false;
@@ -36,6 +40,8 @@ public class GraffitiEvent : MonoBehaviour
     CinemachineCamera freeCamera = graffitiCam.GetComponent<CinemachineCamera>();
     freeCamera.Priority = 0;
     grafitiCanvas.GetComponent<GraffitiCanvas>().canDraw = false;
+    Cursor.lockState = CursorLockMode.Locked;
+    Cursor.visible = false;
     Destroy(gameObject);
   }
 
