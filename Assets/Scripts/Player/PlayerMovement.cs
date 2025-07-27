@@ -23,10 +23,22 @@ public class PlayerMovement : MonoBehaviour, PlayerInputActions.IPlayerActions
     public float groundCheckDistance = 1f;
     private PlayerGrind playerGrind;
     private bool isOnRail = false;
+    public Animator hoverboardAnimator;
 
     private void Awake()
     {
         playerControls = new PlayerInputActions();
+
+        playerControls.Player.Move.performed += OnMove;
+        playerControls.Player.Move.canceled += OnMove;
+
+        playerControls.Player.Jump.performed += OnJump;
+        playerControls.Player.Jump.canceled += OnJump;
+
+        playerControls.Player.Sprint.performed += OnSprint;
+        playerControls.Player.Sprint.canceled += OnSprint;
+
+        playerControls.Player.AddCallbacks(this);
     }
 
     private void OnEnable()
@@ -120,58 +132,57 @@ public class PlayerMovement : MonoBehaviour, PlayerInputActions.IPlayerActions
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (context.canceled)
+        if (context.performed && !jumpQueued)
         {
-            GetComponentInChildren<Animator>().CrossFade("Idle1", 0);
+            GetComponent<Animator>().CrossFade("SkateboardingPushing", 0.1f);
+            hoverboardAnimator.CrossFade("HoverboardPushing", 0.1f);
         }
-        else if (context.performed)
+        else if (context.canceled)
         {
-            GetComponentInChildren<Animator>().CrossFade("Walk", 0);
+            GetComponent<Animator>().CrossFade("SkateboardingIdle", 0.1f);
+            hoverboardAnimator.CrossFade("HoverboardIdle", 0.1f);
         }
     }
 
-    public void OnLook(InputAction.CallbackContext context)
-    {
-        throw new NotImplementedException();
-    }
+    public void OnLook(InputAction.CallbackContext context) { }
 
-    public void OnAttack(InputAction.CallbackContext context)
-    {
-        throw new NotImplementedException();
-    }
+    public void OnLeftClickTrick(InputAction.CallbackContext context) { }
 
-    public void OnInteract(InputAction.CallbackContext context)
-    {
-        throw new NotImplementedException();
-    }
+    public void OnInteract(InputAction.CallbackContext context) { }
 
-    public void OnCrouch(InputAction.CallbackContext context)
-    {
-        throw new NotImplementedException();
-    }
+    public void OnCrouch(InputAction.CallbackContext context) { }
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        throw new NotImplementedException();
+        if (context.performed && jumpQueued)
+        {
+            //GetComponent<Animator>().CrossFade("SkateboardingJump", 0.1f);
+            //hoverboardAnimator.CrossFade("HoverboardJump", 0.1f);
+        }
+        else if (context.canceled)
+        {
+            GetComponent<Animator>().CrossFade("SkateboardingPushing", 0.1f);
+            hoverboardAnimator.CrossFade("HoverboardPushing", 0.1f);
+        }
     }
 
-    public void OnPrevious(InputAction.CallbackContext context)
-    {
-        throw new NotImplementedException();
-    }
+    public void OnPrevious(InputAction.CallbackContext context) { }
 
-    public void OnNext(InputAction.CallbackContext context)
-    {
-        throw new NotImplementedException();
-    }
+    public void OnNext(InputAction.CallbackContext context) { }
 
     public void OnSprint(InputAction.CallbackContext context)
     {
-        throw new NotImplementedException();
+        if (context.performed)
+        {
+            //GetComponent<Animator>().CrossFade("SkateboardingFast", 0.1f);
+            //hoverboardAnimator.CrossFade("HoverboardFast", 0.1f);
+        }
+        else if (context.canceled)
+        {
+            GetComponent<Animator>().CrossFade("SkateboardingIdle", 0.1f);
+            hoverboardAnimator.CrossFade("HoverboardIdle", 0.1f);
+        }
     }
 
-    public void OnRightClickTrick(InputAction.CallbackContext context)
-    {
-        throw new NotImplementedException();
-    }
+    public void OnRightClickTrick(InputAction.CallbackContext context) { }
 }
