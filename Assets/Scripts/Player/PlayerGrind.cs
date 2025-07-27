@@ -56,10 +56,6 @@ public class PlayerGrind : MonoBehaviour
             GetComponent<PlayerMovement>().Freeze();
             playerRigidbody.useGravity = false;
             MovePlayerAlongRail();
-            Quaternion rot = transform.rotation;
-            rot.z = 0;
-            transform.rotation = rot;
-
         }
         else
         {
@@ -144,10 +140,6 @@ public class PlayerGrind : MonoBehaviour
 
             // Apply rotation smoothly
             transform.rotation = Quaternion.Slerp(transform.rotation, currentRailRotation, lerpSpeed * Time.deltaTime);
-            // Zero out the z component of the rotation (roll) if needed
-            Vector3 currentEulerAngles = transform.rotation.eulerAngles;
-            currentEulerAngles.z = 0;
-            transform.rotation = Quaternion.Euler(currentEulerAngles);
 
             // Update tangent
             lastTangent = tangentDir;
@@ -232,9 +224,6 @@ public class PlayerGrind : MonoBehaviour
         currentRailScript.CalculateDirection(forward, transform.forward);
         //Set player's initial position on the rail before starting the movement code.
         transform.position = splinePoint + (transform.up * heightOffset);
-        Quaternion rot = transform.rotation;
-        rot.z = 0;
-        transform.rotation = rot;
     }
 
     public void ThrowOffRail() //ALWAYS CALL WHEN PLAYER COMES OFF RAIL; NEEDED FOR SCORE RESET TOO
@@ -255,9 +244,6 @@ public class PlayerGrind : MonoBehaviour
     public void FeetCollisionOnRail()
     {
         ThrowOffRail();
-        Quaternion rot = transform.rotation;
-        rot.z = 0;
-        transform.rotation = rot;
     }
 
     public void RideRail(GameObject gameObject)
