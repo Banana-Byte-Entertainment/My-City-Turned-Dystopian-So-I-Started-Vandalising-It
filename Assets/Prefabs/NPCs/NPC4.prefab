@@ -59,6 +59,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c4e88b1fa9129f64e9620fa2ee806507, type: 3}
       insertIndex: -1
       addedObject: {fileID: 347338754905355717}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c4e88b1fa9129f64e9620fa2ee806507, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8990289514946890745}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c4e88b1fa9129f64e9620fa2ee806507, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -9071162314748600181}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c4e88b1fa9129f64e9620fa2ee806507, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2994385449701567317}
   m_SourcePrefab: {fileID: 100100000, guid: c4e88b1fa9129f64e9620fa2ee806507, type: 3}
 --- !u!1 &2244851849945626467 stripped
 GameObject:
@@ -78,7 +87,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 11c95f3f34ee5c0458441f056178d77e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -87,3 +96,98 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8990289514946890745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2244851849945626467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e1e142d690f88b4ea009a9c7261963f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-9071162314748600181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2244851849945626467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a411c2ee3ac9f25409566ff10dbe8fad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 5
+  rotationSpeed: 120
+  walkRadius: 10
+  minIdleTime: 1
+  maxIdleTime: 5
+  dialogueMessages:
+  - Hi.
+  - Get lost!
+  - I'm walking here.
+  - Hello.
+  - I'm hungry.
+  - I just ate a burger.
+  - I'm so sad.
+  - They're always watching..
+  - They're in the walls!
+  - My mom said I'm special.
+  - Hurr durr.
+  - The weather is nice today.
+  - How are you?
+  - I'm feeling sick..
+  - AAAAAA
+  - My uncle sold me fent!!
+  - Do you want some fent?
+  - Have you played Fish 'n Chimps?
+  - Gigay Corp should be toppled!
+  - Death to Gigay Corp!
+  - I miss my dad...
+  - A hobo gave me a cool drug, want to try?
+  - Jimmy can you pass me the mandarins?
+  - Give me some space, I have the Moosvirus!
+  - I like my shwarma without glorbenshwarp.
+  - What the sigma?
+  - What the omega?
+  - We have never recovered from the Moosvirus...
+  - Trust the natural recursion.
+  - Hey, apple pie. Schway.
+  - Salutations!
+  - Ermmm.
+  - D. Piddy did nothing wrong, right?
+  - My baby oil has arrived, wanna party?
+  - A funny guy invited me to his island...
+  - Geoffry gave me the Moosvirus!!
+  - Do you have any hair growth product for my friend colin?
+  dialogueTextPrefab: {fileID: 7408038715341543509, guid: 73802c216838b7447bd267d5e63f6846, type: 3}
+  dialogueOffset: {x: 0, y: 0, z: 0}
+  dialogueDisplayTime: 3
+--- !u!143 &-2994385449701567317
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2244851849945626467}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 1.8
+  m_Radius: 0.3
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0.87, z: 0}

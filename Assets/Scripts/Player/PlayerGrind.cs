@@ -1,12 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEditor;
-using UnityEngine.InputSystem;
 using UnityEngine.Splines;
-using UnityEngine.SocialPlatforms.Impl;
 
 // https://github.com/SGTADMAN/RailGrind
 
