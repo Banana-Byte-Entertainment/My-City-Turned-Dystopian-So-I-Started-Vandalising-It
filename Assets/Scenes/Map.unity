@@ -17535,7 +17535,7 @@ PrefabInstance:
     - target: {fileID: 6104731271103416905, guid: a443e891e277dd143aff31667abcae4b, type: 3}
       propertyPath: mainPlayer
       value: 
-      objectReference: {fileID: 1981245720}
+      objectReference: {fileID: 764519739}
     - target: {fileID: 7491131358889775666, guid: a443e891e277dd143aff31667abcae4b, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.005384845
@@ -18610,15 +18610,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 8246c6024f83495429ce3f35bddbe45d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -754.2
+      value: -498.44
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8246c6024f83495429ce3f35bddbe45d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 340.59
+      value: 10.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8246c6024f83495429ce3f35bddbe45d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -648.76
+      value: -228.8
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8246c6024f83495429ce3f35bddbe45d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -29954,11 +29954,11 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 37257e060cce9114097d11c5be334915, type: 3}
+  m_Resource: {fileID: 8300000, guid: abefbd97ae5e7074bb01760b75d82fb0, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.034
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -31467,12 +31467,14 @@ MonoBehaviour:
   freeCamera: {fileID: 1720510119}
   movementSpeed: 20
   jumpHeight: 20
+  canMove: 1
   _rideHeight: 0.7
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   groundCheckDistance: 1
   hoverboardAnimator: {fileID: 588921555}
+  hoverBoardSoundsSource: {fileID: 692868718}
 --- !u!114 &764519742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36762,7 +36764,7 @@ PrefabInstance:
     - target: {fileID: 6104731271103416905, guid: a443e891e277dd143aff31667abcae4b, type: 3}
       propertyPath: mainPlayer
       value: 
-      objectReference: {fileID: 1981245720}
+      objectReference: {fileID: 764519739}
     - target: {fileID: 7491131358889775666, guid: a443e891e277dd143aff31667abcae4b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.9472365
@@ -53666,7 +53668,7 @@ PrefabInstance:
     - target: {fileID: 6104731271103416905, guid: a443e891e277dd143aff31667abcae4b, type: 3}
       propertyPath: mainPlayer
       value: 
-      objectReference: {fileID: 1981245720}
+      objectReference: {fileID: 764519739}
     - target: {fileID: 7491131358889775666, guid: a443e891e277dd143aff31667abcae4b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.919261
@@ -58712,7 +58714,7 @@ PrefabInstance:
     - target: {fileID: 6104731271103416905, guid: a443e891e277dd143aff31667abcae4b, type: 3}
       propertyPath: mainPlayer
       value: 
-      objectReference: {fileID: 1981245720}
+      objectReference: {fileID: 764519739}
     - target: {fileID: 7491131358889775666, guid: a443e891e277dd143aff31667abcae4b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.927347
@@ -64278,8 +64280,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1720510119}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.03494682, y: 0.009168769, z: 0.00032062878, w: 0.9993471}
-  m_LocalPosition: {x: -754.2, y: 341.79282, z: -652.5749}
+  m_LocalRotation: {x: -0.03494618, y: 0.009168863, z: 0.00032062604, w: 0.99934715}
+  m_LocalPosition: {x: -498.44, y: 11.402823, z: -232.61487}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -66536,8 +66538,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1810026400}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.034946825, y: 0.009168771, z: 0.00032062875, w: 0.9993471}
-  m_LocalPosition: {x: -754.2, y: 341.79282, z: -652.5749}
+  m_LocalRotation: {x: -0.03494619, y: 0.009168865, z: 0.00032062622, w: 0.9993471}
+  m_LocalPosition: {x: -498.44, y: 11.402823, z: -232.61487}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -69258,7 +69260,7 @@ PrefabInstance:
     - target: {fileID: 6104731271103416905, guid: a443e891e277dd143aff31667abcae4b, type: 3}
       propertyPath: mainPlayer
       value: 
-      objectReference: {fileID: 1981245720}
+      objectReference: {fileID: 764519739}
     - target: {fileID: 7491131358889775666, guid: a443e891e277dd143aff31667abcae4b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.919258
@@ -70737,12 +70739,14 @@ MonoBehaviour:
   freeCamera: {fileID: 1720510119}
   movementSpeed: 20
   jumpHeight: 20
+  canMove: 1
   _rideHeight: 0.1
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   groundCheckDistance: 1
   hoverboardAnimator: {fileID: 0}
+  hoverBoardSoundsSource: {fileID: 0}
 --- !u!114 &1981245731
 MonoBehaviour:
   m_ObjectHideFlags: 0

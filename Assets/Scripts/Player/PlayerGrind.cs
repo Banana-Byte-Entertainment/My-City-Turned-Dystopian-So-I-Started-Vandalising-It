@@ -96,9 +96,9 @@ public class PlayerGrind : MonoBehaviour
             //current elapsed time.
             float nextTimeNormalised;
             if (currentRailScript.travelDir)
-                nextTimeNormalised = (elapsedRailTime + Time.deltaTime) / timeForFullSpline;
+                nextTimeNormalised = (elapsedRailTime + Time.fixedDeltaTime) / timeForFullSpline;
             else
-                nextTimeNormalised = (elapsedRailTime - Time.deltaTime) / timeForFullSpline;
+                nextTimeNormalised = (elapsedRailTime - Time.fixedDeltaTime) / timeForFullSpline;
 
             //Calculating the local positions of the player's current position and next position
             //using current progress and the progress for the next update.
@@ -121,16 +121,16 @@ public class PlayerGrind : MonoBehaviour
 
             // Create the target rotation and lerp towards it
             Quaternion targetRotation = Quaternion.LookRotation(tangentDir, worldUp);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, lerpSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, lerpSpeed * Time.fixedDeltaTime);
 
             //Finally incrementing or decrementing elapsed time for the next update based on direction.
             prevScoreTime = elapsedScoreTime;
-            elapsedScoreTime += Time.deltaTime;
+            elapsedScoreTime += Time.fixedDeltaTime;
 
             if (currentRailScript.travelDir)
-                elapsedRailTime += Time.deltaTime;
+                elapsedRailTime += Time.fixedDeltaTime;
             else
-                elapsedRailTime -= Time.deltaTime;
+                elapsedRailTime -= Time.fixedDeltaTime;
         }
     }
 
@@ -196,7 +196,8 @@ public class PlayerGrind : MonoBehaviour
         currentRailScript.CalculateDirection(forward, transform.forward);
         //Set player's initial position on the rail before starting the movement code.
         Vector3 worldUp = currentRailScript.transform.TransformDirection(up).normalized;
-        transform.position = splinePoint + (worldUp * heightOffset);
+        Vector3 worldPos = currentRailScript.LocalToWorldConversion(pos);
+        transform.position = worldPos + (worldUp * heightOffset);
     }
 
     public void ThrowOffRail() //ALWAYS CALL WHEN PLAYER COMES OFF RAIL; NEEDED FOR SCORE RESET TOO
