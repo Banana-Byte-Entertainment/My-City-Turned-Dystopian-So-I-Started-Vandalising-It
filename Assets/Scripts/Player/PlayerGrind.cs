@@ -54,11 +54,17 @@ public class PlayerGrind : MonoBehaviour
         if (onRail) //If on the rail, move the player along the rail
         {
             GetComponent<PlayerMovement>().Freeze();
+            playerRigidbody.useGravity = false;
             MovePlayerAlongRail();
+            Quaternion rot = transform.rotation;
+            rot.z = 0;
+            transform.rotation = rot;
+
         }
         else
         {
             GetComponent<PlayerMovement>().Unfreeze();
+            playerRigidbody.useGravity = true;
         }
     }
 
@@ -71,6 +77,9 @@ public class PlayerGrind : MonoBehaviour
     {
         if (currentRailScript != null && onRail) //This is just some additional error checking.
         {
+            Quaternion rot = transform.rotation;
+            rot.z = 0;
+            transform.rotation = rot;
             //Calculate a 0 to 1 normalised time value which is the progress along the rail.
             //Elapsed time divided by the full time needed to traverse the spline will give you that value.
             float progress = elapsedRailTime / timeForFullSpline;
@@ -131,8 +140,14 @@ public class PlayerGrind : MonoBehaviour
                 currentRailRotation = rotationDelta * currentRailRotation;
             }
 
+            currentRailRotation.z = 0;
+
             // Apply rotation smoothly
             transform.rotation = Quaternion.Slerp(transform.rotation, currentRailRotation, lerpSpeed * Time.deltaTime);
+            // Zero out the z component of the rotation (roll) if needed
+            Vector3 currentEulerAngles = transform.rotation.eulerAngles;
+            currentEulerAngles.z = 0;
+            transform.rotation = Quaternion.Euler(currentEulerAngles);
 
             // Update tangent
             lastTangent = tangentDir;
@@ -150,12 +165,15 @@ public class PlayerGrind : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision collision) // OnCollisionEnter is required to prevent score breaking (ensure correct elapsedScoreTime)
-    {   
+    {
         Debug.Log("Hitting something");
         if (onRail)
         {
             // ThrowOffRail();
             transform.RotateAround(transform.position, transform.up, 180f);
+            Quaternion rot = transform.rotation;
+            rot.z = 0;
+            transform.rotation = rot;
             CalculateAndSetRailPosition();
         }
         else if (collision.gameObject.CompareTag("Rail"))
@@ -176,6 +194,9 @@ public class PlayerGrind : MonoBehaviour
                 prevScoreTime = Time.deltaTime;
                 currentRailScript = collision.gameObject.GetComponent<RailScript>();
                 CalculateAndSetRailPosition();
+                Quaternion rot = transform.rotation;
+                rot.z = 0;
+                transform.rotation = rot;
             }
         }
     }
@@ -211,9 +232,12 @@ public class PlayerGrind : MonoBehaviour
         currentRailScript.CalculateDirection(forward, transform.forward);
         //Set player's initial position on the rail before starting the movement code.
         transform.position = splinePoint + (transform.up * heightOffset);
+        Quaternion rot = transform.rotation;
+        rot.z = 0;
+        transform.rotation = rot;
     }
 
-    void ThrowOffRail() //ALWAYS CALL WHEN PLAYER COMES OFF RAIL; NEEDED FOR SCORE RESET TOO
+    public void ThrowOffRail() //ALWAYS CALL WHEN PLAYER COMES OFF RAIL; NEEDED FOR SCORE RESET TOO
     {
         //Set onRail to false, clear the rail script, and push the player off the rail.
         //It's a little sudden, there might be a better way of doing using coroutines and looping, but this will work.
@@ -231,6 +255,9 @@ public class PlayerGrind : MonoBehaviour
     public void FeetCollisionOnRail()
     {
         ThrowOffRail();
+        Quaternion rot = transform.rotation;
+        rot.z = 0;
+        transform.rotation = rot;
     }
 
     public void RideRail(GameObject gameObject)

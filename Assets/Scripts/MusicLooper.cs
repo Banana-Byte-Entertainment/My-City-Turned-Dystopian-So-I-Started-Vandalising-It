@@ -37,10 +37,5 @@ public class MusicLooper : MonoBehaviour
             audioSource.Play();
             delayTimer = delayBetweenMusic;
         }
-
-        if (Keyboard.current.spaceKey.isPressed)
-        {
-            audioSource.Stop();
-        }
     }
 }
