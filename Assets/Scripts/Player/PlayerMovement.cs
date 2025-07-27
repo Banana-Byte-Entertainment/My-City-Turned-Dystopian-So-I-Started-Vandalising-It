@@ -15,15 +15,16 @@ public class PlayerMovement : MonoBehaviour, PlayerInputActions.IPlayerActions
     private Vector3 moveDirection;
     private Vector3 cameraForward;
     private Vector3 cameraRight;
-    private bool canMove = true;
-    public float _rideHeight = 0.1f;
+    public bool canMove = true;
+    public float _rideHeight = 0.001f;
     private bool jumpQueued;
     private bool isGrounded;
     public LayerMask groundLayer;
-    public float groundCheckDistance = 1f;
+    public float groundCheckDistance = 0.2f;
     private PlayerGrind playerGrind;
     private bool isOnRail = false;
     public Animator hoverboardAnimator;
+    public AudioSource hoverBoardSoundsSource;
 
     private void Awake()
     {
@@ -86,7 +87,7 @@ public class PlayerMovement : MonoBehaviour, PlayerInputActions.IPlayerActions
     void FixedUpdate()
     {
         RaycastHit hit;
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDistance, groundLayer);
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDistance, groundLayer, QueryTriggerInteraction.Ignore);
 
         if (isGrounded && hit.collider.CompareTag("Rail"))
             isOnRail = true;
@@ -112,12 +113,17 @@ public class PlayerMovement : MonoBehaviour, PlayerInputActions.IPlayerActions
             transform.LookAt(new Vector3(moveDirection.x, 0, moveDirection.z) + transform.position);
         }
 
-        if (jumpQueued && isGrounded)
+        if (rb.linearVelocity.sqrMagnitude > 0.1f && hoverBoardSoundsSource.isPlaying == false)
+            hoverBoardSoundsSource.Play();
+        else if (rb.linearVelocity.sqrMagnitude < 0.1f)
+            hoverBoardSoundsSource.Stop();
+
+        if (jumpQueued && (playerGrind.onRail || isGrounded))
         {
-            if (isOnRail)
-                playerGrind.ThrowOffRail();
+            playerGrind.ThrowOffRail();
             rb.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
         }
+
 
         jumpQueued = false;
     }

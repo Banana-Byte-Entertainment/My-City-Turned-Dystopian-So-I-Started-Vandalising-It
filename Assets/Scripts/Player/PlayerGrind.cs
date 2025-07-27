@@ -18,7 +18,7 @@ public class PlayerGrind : MonoBehaviour
 
     [Header("Variables")]
     public bool onRail;
-    [SerializeField] float grindSpeed = 20f;
+    [SerializeField] float grindSpeed = 40f;
     float heightOffset;
     float timeForFullSpline;
     float elapsedRailTime; // TRAVEL TIME ON RAIL; DO NOT USE FOR SCORE
@@ -43,7 +43,8 @@ public class PlayerGrind : MonoBehaviour
     {
         playerScore = GetComponent<PlayerScore>();
         playerRigidbody = GetComponent<Rigidbody>();
-        heightOffset = gameObject.GetComponent<Collider>().bounds.size.y / 2 + gameObject.GetComponent<PlayerMovement>()._rideHeight;
+        // heightOffset = gameObject.GetComponent<Collider>().bounds.size.y / 2 + gameObject.GetComponent<PlayerMovement>()._rideHeight;
+        heightOffset = gameObject.GetComponent<PlayerMovement>()._rideHeight;
 
         elapsedScoreTime = 0;
         prevScoreTime = 0;
@@ -56,10 +57,6 @@ public class PlayerGrind : MonoBehaviour
             GetComponent<PlayerMovement>().Freeze();
             playerRigidbody.useGravity = false;
             MovePlayerAlongRail();
-            Quaternion rot = transform.rotation;
-            rot.z = 0;
-            transform.rotation = rot;
-
         }
         else
         {
@@ -77,9 +74,6 @@ public class PlayerGrind : MonoBehaviour
     {
         if (currentRailScript != null && onRail) //This is just some additional error checking.
         {
-            Quaternion rot = transform.rotation;
-            rot.z = 0;
-            transform.rotation = rot;
             //Calculate a 0 to 1 normalised time value which is the progress along the rail.
             //Elapsed time divided by the full time needed to traverse the spline will give you that value.
             float progress = elapsedRailTime / timeForFullSpline;
@@ -102,9 +96,9 @@ public class PlayerGrind : MonoBehaviour
             //current elapsed time.
             float nextTimeNormalised;
             if (currentRailScript.travelDir)
-                nextTimeNormalised = (elapsedRailTime + Time.deltaTime) / timeForFullSpline;
+                nextTimeNormalised = (elapsedRailTime + Time.fixedDeltaTime) / timeForFullSpline;
             else
-                nextTimeNormalised = (elapsedRailTime - Time.deltaTime) / timeForFullSpline;
+                nextTimeNormalised = (elapsedRailTime - Time.fixedDeltaTime) / timeForFullSpline;
 
             //Calculating the local positions of the player's current position and next position
             //using current progress and the progress for the next update.
@@ -117,50 +111,26 @@ public class PlayerGrind : MonoBehaviour
             Vector3 worldPos = currentRailScript.LocalToWorldConversion(pos);
             Vector3 nextPos = currentRailScript.LocalToWorldConversion(nextPosfloat);
 
+            // Get the tangent and up vector in world space
+            Vector3 tangentDir = (nextPos - worldPos).normalized;
+            Vector3 worldUp = currentRailScript.transform.TransformDirection(up).normalized;
+
             //Setting the player's position and adding a height offset so that they're sitting on top of the rail
             //instead of being in the middle of it.
-            transform.position = worldPos + (transform.up * heightOffset);
-            // //Lerping the player's current rotation to the direction of where they are to where they're going.
-            // transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(nextPos - worldPos), lerpSpeed * Time.deltaTime);
-            // //Lerping the player's up direction to match that of the rail, in relation to the player's current rotation.
-            // transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.up, up) * transform.rotation, lerpSpeed * Time.deltaTime);
+            transform.position = worldPos + (worldUp * heightOffset);
 
-            Vector3 tangentDir = (nextPos - worldPos).normalized;
-
-            if (!initializedRotation)
-            {
-                // First frame on the rail: build initial rotation
-                currentRailRotation = Quaternion.LookRotation(tangentDir, transform.up);
-                initializedRotation = true;
-            }
-            else
-            {
-                // Compute rotation from previous tangent to current tangent
-                Quaternion rotationDelta = Quaternion.FromToRotation(lastTangent, tangentDir);
-                currentRailRotation = rotationDelta * currentRailRotation;
-            }
-
-            currentRailRotation.z = 0;
-
-            // Apply rotation smoothly
-            transform.rotation = Quaternion.Slerp(transform.rotation, currentRailRotation, lerpSpeed * Time.deltaTime);
-            // Zero out the z component of the rotation (roll) if needed
-            Vector3 currentEulerAngles = transform.rotation.eulerAngles;
-            currentEulerAngles.z = 0;
-            transform.rotation = Quaternion.Euler(currentEulerAngles);
-
-            // Update tangent
-            lastTangent = tangentDir;
-
+            // Create the target rotation and lerp towards it
+            Quaternion targetRotation = Quaternion.LookRotation(tangentDir, worldUp);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, lerpSpeed * Time.fixedDeltaTime);
 
             //Finally incrementing or decrementing elapsed time for the next update based on direction.
             prevScoreTime = elapsedScoreTime;
-            elapsedScoreTime += Time.deltaTime;
+            elapsedScoreTime += Time.fixedDeltaTime;
 
             if (currentRailScript.travelDir)
-                elapsedRailTime += Time.deltaTime;
+                elapsedRailTime += Time.fixedDeltaTime;
             else
-                elapsedRailTime -= Time.deltaTime;
+                elapsedRailTime -= Time.fixedDeltaTime;
         }
     }
 
@@ -171,9 +141,6 @@ public class PlayerGrind : MonoBehaviour
         {
             // ThrowOffRail();
             transform.RotateAround(transform.position, transform.up, 180f);
-            Quaternion rot = transform.rotation;
-            rot.z = 0;
-            transform.rotation = rot;
             CalculateAndSetRailPosition();
         }
         else if (collision.gameObject.CompareTag("Rail"))
@@ -194,9 +161,6 @@ public class PlayerGrind : MonoBehaviour
                 prevScoreTime = Time.deltaTime;
                 currentRailScript = collision.gameObject.GetComponent<RailScript>();
                 CalculateAndSetRailPosition();
-                Quaternion rot = transform.rotation;
-                rot.z = 0;
-                transform.rotation = rot;
             }
         }
     }
@@ -231,10 +195,9 @@ public class PlayerGrind : MonoBehaviour
         //Calculate the direction the player is going down the rail
         currentRailScript.CalculateDirection(forward, transform.forward);
         //Set player's initial position on the rail before starting the movement code.
-        transform.position = splinePoint + (transform.up * heightOffset);
-        Quaternion rot = transform.rotation;
-        rot.z = 0;
-        transform.rotation = rot;
+        Vector3 worldUp = currentRailScript.transform.TransformDirection(up).normalized;
+        Vector3 worldPos = currentRailScript.LocalToWorldConversion(pos);
+        transform.position = worldPos + (worldUp * heightOffset);
     }
 
     public void ThrowOffRail() //ALWAYS CALL WHEN PLAYER COMES OFF RAIL; NEEDED FOR SCORE RESET TOO
@@ -255,9 +218,6 @@ public class PlayerGrind : MonoBehaviour
     public void FeetCollisionOnRail()
     {
         ThrowOffRail();
-        Quaternion rot = transform.rotation;
-        rot.z = 0;
-        transform.rotation = rot;
     }
 
     public void RideRail(GameObject gameObject)
