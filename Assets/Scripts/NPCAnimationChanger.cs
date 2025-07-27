@@ -12,12 +12,12 @@ public class NPCAnimationChanger : MonoBehaviour
     public void Dance()
     {
         // Change the NPC's animation to a dance animation
-        animator.CrossFade("NPCDance", 0.1f);
+        animator.CrossFade("NPCDance", 0.05f);
     }
 
     public void Walk()
     {
         // Change the NPC's animation to a dance animation
-        animator.CrossFade("NPCWalking", 0.1f);
+        animator.CrossFade("NPCWalking", 0.05f);
     }
 }

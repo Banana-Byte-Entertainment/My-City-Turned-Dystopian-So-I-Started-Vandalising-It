@@ -22,11 +22,14 @@ public class NPC : MonoBehaviour
     public TextMeshPro dialogueTextPrefab; // Assign a TextMeshPro prefab for the text
     public Vector3 dialogueOffset = new Vector3(0, 2, 0); // Offset above the NPC's head
     public float dialogueDisplayTime = 3f;
+    private NPCAnimationChanger animationChanger;
 
     private Coroutine _dialogueCoroutine;
+    private float loadTimer = 1f;
 
     void Start()
     {
+        animationChanger = GetComponent<NPCAnimationChanger>();
         controller = GetComponent<CharacterController>();
         if (controller == null)
         {
@@ -55,9 +58,16 @@ public class NPC : MonoBehaviour
 
     void Move()
     {
+        while (loadTimer > 0)
+        {
+            loadTimer -= Time.deltaTime;
+            return;
+        }
+
         if (Vector3.Distance(new Vector3(transform.position.x, 0, transform.position.z), new Vector3(targetPosition.x, 0, targetPosition.z)) < controller.radius)
         {
             isMoving = false;
+            animationChanger.Dance();
             return;
         }
 
@@ -89,6 +99,8 @@ public class NPC : MonoBehaviour
 
     IEnumerator Wander()
     {
+        yield return new WaitForSeconds(loadTimer);
+
         while (true)
         {
             SetNewRandomDestination();
@@ -111,6 +123,7 @@ public class NPC : MonoBehaviour
             {
                 Debug.Log("NPC was stuck, finding new destination.");
                 isMoving = false;
+                animationChanger.Dance();
             }
 
             float idleTime = UnityEngine.Random.Range(minIdleTime, maxIdleTime);
@@ -125,6 +138,7 @@ public class NPC : MonoBehaviour
         NavMeshHit navHit;
         NavMesh.SamplePosition(randomDirection, out navHit, walkRadius, -1);
         targetPosition = navHit.position;
+        animationChanger.Walk();
     }
 
     public void DisplayDialogue()
