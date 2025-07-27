@@ -27,6 +27,7 @@ public class GraffitiCanvas : MonoBehaviour
     private ParticleSystem particleSprayCan;
     public Color[] possibleSprayColors = { Color.black, Color.white, Color.red, Color.orange, Color.yellow, Color.green, Color.blue, Color.indigo, Color.pink };
     private Transform sprayCanColorTransform;
+    public AudioSource sprayCanSound;
 
     void Start()
     {
@@ -118,6 +119,9 @@ public class GraffitiCanvas : MonoBehaviour
         {
             if (Physics.Raycast(ray, out hit))
             {
+                if (!sprayCanSound.isPlaying)
+                    sprayCanSound.Play();
+
                 if (hit.collider.gameObject != this.gameObject) return;
 
                 if (!particleSprayCan.isPlaying)
@@ -156,6 +160,7 @@ public class GraffitiCanvas : MonoBehaviour
 
         if (!Mouse.current.leftButton.isPressed && particleSprayCan.isPlaying)
         {
+            sprayCanSound.Stop();
             sprayCanInstance.GetComponentInChildren<ParticleSystem>().Stop();
         }
 

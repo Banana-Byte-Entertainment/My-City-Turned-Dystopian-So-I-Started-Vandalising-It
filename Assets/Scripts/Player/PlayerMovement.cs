@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour, PlayerInputActions.IPlayerActions
@@ -25,6 +26,8 @@ public class PlayerMovement : MonoBehaviour, PlayerInputActions.IPlayerActions
     private bool isOnRail = false;
     public Animator hoverboardAnimator;
     public AudioSource hoverBoardSoundsSource;
+    public AudioResource[] jumpSounds;
+    public AudioSource jumpSoundSource;
 
     private void Awake()
     {
@@ -120,6 +123,8 @@ public class PlayerMovement : MonoBehaviour, PlayerInputActions.IPlayerActions
 
         if (jumpQueued && (playerGrind.onRail || isGrounded))
         {
+            jumpSoundSource.resource = jumpSounds[UnityEngine.Random.Range(0, jumpSounds.Length)];
+            jumpSoundSource.Play();
             playerGrind.ThrowOffRail();
             rb.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
         }
