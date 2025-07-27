@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour, PlayerInputActions.IPlayerActions
     private Vector3 cameraForward;
     private Vector3 cameraRight;
     private bool canMove = true;
-    public float _rideHeight = 0.1f;
+    public float _rideHeight = 0.001f;
     private bool jumpQueued;
     private bool isGrounded;
     public LayerMask groundLayer;
