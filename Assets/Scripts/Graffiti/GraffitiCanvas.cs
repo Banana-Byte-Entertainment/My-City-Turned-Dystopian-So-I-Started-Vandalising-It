@@ -13,7 +13,7 @@ public class GraffitiCanvas : MonoBehaviour
     public Color sprayColor = Color.black;
     private int sprayColorIdx = 0;
     private Color[] colors;
-    private bool updateMipMap = false;
+    //private bool updateMipMap = false;
     private bool sprayedLastFrame = false;
     private Vector2 lastSprayPos;
     private float performanceTimer = 0;
