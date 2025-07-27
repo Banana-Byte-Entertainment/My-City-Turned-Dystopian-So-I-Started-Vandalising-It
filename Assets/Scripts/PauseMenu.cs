@@ -11,6 +11,11 @@ public class PauseMenu : MonoBehaviour
 
     public void Quit()
     {
-        SceneManager.LoadScene("Start");
+        SceneManager.LoadScene("TitleScreen");
+    }
+
+    public void Creds()
+    {
+        SceneManager.LoadScene("Creds");
     }
 }
