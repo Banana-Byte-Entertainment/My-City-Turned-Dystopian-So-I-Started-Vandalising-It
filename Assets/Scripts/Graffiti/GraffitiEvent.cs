@@ -42,6 +42,7 @@ public class GraffitiEvent : MonoBehaviour
     grafitiCanvas.GetComponent<GraffitiCanvas>().canDraw = false;
     Cursor.lockState = CursorLockMode.Locked;
     Cursor.visible = false;
+    mainPlayer.GetComponent<GraffitiCounter>().addOneCount();
     Destroy(gameObject);
   }
 

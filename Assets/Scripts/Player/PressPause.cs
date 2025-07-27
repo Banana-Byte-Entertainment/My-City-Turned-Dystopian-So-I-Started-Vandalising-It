@@ -18,14 +18,18 @@ public class PressPause : MonoBehaviour
     {
         if (playerControls.Player.Previous.triggered)
         {
+            change = !change;
             pause.gameObject.SetActive(change);
-            if (change)
+            if (!change)
             {
-                change = false;
+                if (Cursor.visible != false)
+                {
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
+                }
             }
             else
             {
-                change = true;
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
