@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.AI;
 using System;
 using TMPro;
+using UnityEngine.Audio;
 
 public class NPC : MonoBehaviour
 {
@@ -26,11 +27,14 @@ public class NPC : MonoBehaviour
 
     private Coroutine _dialogueCoroutine;
     private float loadTimer = 1f;
+    public AudioResource[] voiceLines;
+    private AudioSource audioSource;
 
     void Start()
     {
         animationChanger = GetComponent<NPCAnimationChanger>();
         controller = GetComponent<CharacterController>();
+        audioSource = GetComponentInChildren<AudioSource>();
         if (controller == null)
         {
             Debug.LogError("CharacterController component not found on NPC. Please add one.");
@@ -161,8 +165,12 @@ public class NPC : MonoBehaviour
 
     private IEnumerator ShowDialogueRoutine()
     {
+        var rand = UnityEngine.Random.Range(0, dialogueMessages.Length);
         dialogueInstance = Instantiate(dialogueTextPrefab, transform.position + dialogueOffset, Quaternion.identity, transform);
-        dialogueInstance.text = dialogueMessages[UnityEngine.Random.Range(0, dialogueMessages.Length)];
+        dialogueInstance.text = dialogueMessages[rand];
+
+        audioSource.resource = voiceLines[rand];
+        audioSource.Play();
 
         yield return new WaitForSeconds(dialogueDisplayTime);
 
