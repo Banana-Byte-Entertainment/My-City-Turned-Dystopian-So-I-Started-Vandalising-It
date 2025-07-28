@@ -63,31 +63,30 @@ public class NPC : MonoBehaviour
 
     void Move()
     {
-        while (loadTimer > 0)
+        if (loadTimer > 0)
         {
             loadTimer -= Time.deltaTime;
             return;
         }
 
-        if (Vector3.Distance(new Vector3(transform.position.x, 0, transform.position.z), new Vector3(targetPosition.x, 0, targetPosition.z)) < controller.radius)
+        // Use a 2D distance check on the XZ plane for arrival.
+        float distanceToTarget = Vector3.Distance(new Vector3(transform.position.x, 0, transform.position.z), new Vector3(targetPosition.x, 0, targetPosition.z));
+        if (distanceToTarget < controller.radius)
         {
             isMoving = false;
             animationChanger.Dance();
             return;
         }
 
-        if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
+        Vector3 direction = targetPosition - transform.position;
+
+        // Prevent normalization of a zero vector if we are already at the target.
+        if (direction.sqrMagnitude < 0.001f)
         {
             isMoving = false;
             return;
         }
 
-        Vector3 direction = (targetPosition - transform.position);
-        if (direction == Vector3.zero)
-        {
-            isMoving = false;
-            return;
-        }
         direction.Normalize();
         Vector3 move = new Vector3(direction.x * movementSpeed, 0, direction.z * movementSpeed);
 
@@ -101,13 +100,24 @@ public class NPC : MonoBehaviour
             verticalVelocity += Physics.gravity.y * Time.deltaTime;
         }
 
+        // Clamp vertical velocity to prevent extreme values.
+        verticalVelocity = Mathf.Clamp(verticalVelocity, -100f, 100f);
+
         move.y = verticalVelocity;
+
+        // Final check for NaN before passing the vector to controller.Move().
+        if (float.IsNaN(move.x) || float.IsNaN(move.y) || float.IsNaN(move.z))
+        {
+            Debug.LogWarning("Move vector is NaN, skipping movement to prevent error.");
+            isMoving = false; // Stop moving to reset state.
+            return;
+        }
 
         controller.Move(move * Time.deltaTime);
 
         Vector3 lookDirection = direction;
         lookDirection.y = 0;
-        if (lookDirection != Vector3.zero)
+        if (lookDirection.sqrMagnitude > 0.001f) // Use sqrMagnitude for efficiency
         {
             Quaternion toRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
@@ -153,8 +163,15 @@ public class NPC : MonoBehaviour
         Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * walkRadius;
         randomDirection += transform.position;
         NavMeshHit navHit;
-        NavMesh.SamplePosition(randomDirection, out navHit, walkRadius, -1);
-        targetPosition = navHit.position;
+        if (NavMesh.SamplePosition(randomDirection, out navHit, walkRadius, -1))
+        {
+            targetPosition = navHit.position;
+        }
+        else
+        {
+            // If we can't find a new position, just stay put for this cycle.
+            targetPosition = transform.position;
+        }
         animationChanger.Walk();
     }
 
