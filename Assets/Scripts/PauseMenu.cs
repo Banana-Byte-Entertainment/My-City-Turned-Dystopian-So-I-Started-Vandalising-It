@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public string CurrentScene;
+    public TransitionManager transitionManager;
+
     public void Play()
     {
         SceneManager.LoadScene(CurrentScene);
@@ -11,7 +13,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Quit()
     {
-        SceneManager.LoadScene("TitleScreen");
+        transitionManager.FadeToBlack("TitleScreen");
     }
 
     public void Creds()
