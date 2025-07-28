@@ -9,7 +9,7 @@ public class GraffitiEvent : MonoBehaviour
   public GameObject mainPlayer;
   private float originalSpeed;
   public GameObject grafitiCanvas;
-  private bool grafitiEvent = false;
+  public bool grafitiEvent = false;
 
   public void StartEvent()
   {

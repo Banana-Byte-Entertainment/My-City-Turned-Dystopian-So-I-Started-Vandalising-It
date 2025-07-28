@@ -196,4 +196,6 @@ public class PlayerMovement : MonoBehaviour, PlayerInputActions.IPlayerActions
     }
 
     public void OnRightClickTrick(InputAction.CallbackContext context) { }
+
+    public void OnPause(InputAction.CallbackContext context) { }
 }
