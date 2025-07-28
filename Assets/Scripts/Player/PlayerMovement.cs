@@ -116,6 +116,11 @@ public class PlayerMovement : MonoBehaviour, PlayerInputActions.IPlayerActions
             transform.LookAt(new Vector3(moveDirection.x, 0, moveDirection.z) + transform.position);
         }
 
+        if (playerControls.Player.Sprint.IsPressed() && canMove)
+        {
+           rb.linearVelocity = new Vector3(moveDirection.x * movementSpeed * 2, rb.linearVelocity.y, moveDirection.z * movementSpeed * 2);
+        }
+
         if (rb.linearVelocity.sqrMagnitude > 0.1f && hoverBoardSoundsSource.isPlaying == false)
             hoverBoardSoundsSource.Play();
         else if (rb.linearVelocity.sqrMagnitude < 0.1f)
@@ -128,7 +133,6 @@ public class PlayerMovement : MonoBehaviour, PlayerInputActions.IPlayerActions
             playerGrind.ThrowOffRail();
             rb.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
         }
-
 
         jumpQueued = false;
     }
