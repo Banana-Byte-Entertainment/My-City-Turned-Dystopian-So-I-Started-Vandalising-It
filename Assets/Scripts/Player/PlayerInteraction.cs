@@ -4,12 +4,24 @@ using UnityEngine.InputSystem;
 public class PlayerInteraction : MonoBehaviour
 {
   public float interactionRadius = 3.0f;
+  public float interactionDelay = 3.0f;
+  private float delayTimer = 0;
 
   void Update()
   {
-    if (Keyboard.current.eKey.wasPressedThisFrame)
+    // if (Keyboard.current.eKey.wasPressedThisFrame)
+    // {
+    // TryInteract();
+    // }
+
+    if (delayTimer <= 0)
     {
       TryInteract();
+      delayTimer = interactionDelay;
+    }
+    else
+    {
+      delayTimer -= Time.deltaTime;
     }
   }
 
