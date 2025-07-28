@@ -76,7 +76,19 @@ public class NPC : MonoBehaviour
             return;
         }
 
-        Vector3 direction = (targetPosition - transform.position).normalized;
+        if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
+        {
+            isMoving = false;
+            return;
+        }
+
+        Vector3 direction = (targetPosition - transform.position);
+        if (direction == Vector3.zero)
+        {
+            isMoving = false;
+            return;
+        }
+        direction.Normalize();
         Vector3 move = new Vector3(direction.x * movementSpeed, 0, direction.z * movementSpeed);
 
         // Apply gravity
