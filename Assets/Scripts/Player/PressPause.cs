@@ -20,11 +20,12 @@ public class PressPause : MonoBehaviour
         pause.gameObject.SetActive(change);
 
         time = timeMax;
-        graffitiEvents = GameObject.FindGameObjectsWithTag("GraffitiSpot");
     }
 
     void Update()
     {
+        graffitiEvents = GameObject.FindGameObjectsWithTag("GraffitiSpot");
+        
         if (time > 0)
         {
             time -= Time.deltaTime;
