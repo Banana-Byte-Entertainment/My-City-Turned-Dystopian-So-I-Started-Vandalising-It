@@ -74,7 +74,7 @@ public class NPC : MonoBehaviour
         if (distanceToTarget < controller.radius)
         {
             isMoving = false;
-            animationChanger.Dance();
+            if (gameObject.tag != "Cow") animationChanger.Dance();
             return;
         }
 
@@ -150,7 +150,7 @@ public class NPC : MonoBehaviour
             {
                 Debug.Log("NPC was stuck, finding new destination.");
                 isMoving = false;
-                animationChanger.Dance();
+                if (gameObject.tag != "Cow") animationChanger.Dance();
             }
 
             float idleTime = UnityEngine.Random.Range(minIdleTime, maxIdleTime);
@@ -172,7 +172,7 @@ public class NPC : MonoBehaviour
             // If we can't find a new position, just stay put for this cycle.
             targetPosition = transform.position;
         }
-        animationChanger.Walk();
+        if (gameObject.tag != "Cow") animationChanger.Walk();
     }
 
     public void DisplayDialogue()
