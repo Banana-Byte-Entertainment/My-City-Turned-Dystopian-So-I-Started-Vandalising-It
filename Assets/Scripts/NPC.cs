@@ -35,6 +35,7 @@ public class NPC : MonoBehaviour
         animationChanger = GetComponent<NPCAnimationChanger>();
         controller = GetComponent<CharacterController>();
         audioSource = GetComponentInChildren<AudioSource>();
+        audioSource.volume = 0.8f;
         if (controller == null)
         {
             Debug.LogError("CharacterController component not found on NPC. Please add one.");
