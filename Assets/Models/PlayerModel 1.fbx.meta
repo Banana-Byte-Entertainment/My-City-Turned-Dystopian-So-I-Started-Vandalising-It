@@ -3,7 +3,22 @@ guid: 8246c6024f83495429ce3f35bddbe45d
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Hover Effect
+    second: {fileID: 2100000, guid: b11dccffee6162c43b503b73704cd2a9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Jacket
+    second: {fileID: 2100000, guid: 12c0d039a6ecddf47afddf446b63bde2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PantsGlow
+    second: {fileID: 2100000, guid: 56905963fcec780429d1e717d5ae4e6a, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
