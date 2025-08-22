@@ -2,9 +2,14 @@
 
 ## About
 
+**#1 in the [Cyberpunk Game Jam 2.0](https://itch.io/jam/cyberpunk-game-jam-2)!**
+
 This is the source code for *My City Turned Dystopian So I Started Vandalising It*, a game developed by *Banana Byte Entertainment*!
 
 This game is an action-adventure hoverboard game that combines skateboarding-style gameplay with urban exploration and creative expression. You, the player, ride a hoverboard through a cyberpunk-styled dystopian city environment, performing tricks on rails and creating graffiti art on various surfaces.
+
+Play the game here:  
+👉 [itch.io page](https://banana-byte-entertainment.itch.io/my-city-turned-dystopian-so-i-started-vandalising-it)
 
 ## Project Structure
 
@@ -37,12 +42,12 @@ To explore or modify the game:
 
 ## Team
 
-This game was conceptualised, designed, and developed by *Banana Byte Entertainment* for a game jam. It is available to download on itch.io.
+This game was conceptualised, designed, and developed by *Banana Byte Entertainment* for a game jam. It is published on itch.io.
 
 ## License
 
 This project is provided for educational and portfolio purposes. Please [contact the authors](mailto:bananabyteentertainment@gmail.com) for inquiries about reuse or distribution.
 
-<!-- ---
-
-*Experience the thrill of urban hoverboarding in this unique blend of extreme sports and creative expression!* -->
+<!--
+*Experience the thrill of urban hoverboarding in this unique blend of extreme sports and creative expression!*
+-->
